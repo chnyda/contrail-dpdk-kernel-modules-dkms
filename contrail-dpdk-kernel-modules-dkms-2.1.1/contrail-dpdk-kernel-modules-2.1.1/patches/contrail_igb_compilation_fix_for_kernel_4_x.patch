@@ -1,0 +1,33 @@
+--- a/dpdk-2.1.1/lib/librte_eal/linuxapp/igb_uio/igb_uio.c	2016-12-22 16:41:12.759440958 -0800
++++ b/dpdk-2.1.1/lib/librte_eal/linuxapp/igb_uio/igb_uio.c	2016-12-22 16:41:12.759440958 -0800
+@@ -254,8 +254,13 @@
+ 	else if (udev->mode == RTE_INTR_MODE_MSIX) {
+ 		struct msi_desc *desc;
+ 
+-		list_for_each_entry(desc, &pdev->msi_list, list)
+-			igbuio_msix_mask_irq(desc, irq_state);
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 3, 0))
++		list_for_each_entry(desc, &pdev->msi_list, list)
++			igbuio_msix_mask_irq(desc, irq_state);
++#else
++		list_for_each_entry(desc, &pdev->dev.msi_list, list)
++			igbuio_msix_mask_irq(desc, irq_state);
++#endif
+ 	}
+ 	pci_cfg_access_unlock(pdev);
+ 
+--- a/dpdk-2.1.1/lib/librte_eal/linuxapp/kni/ethtool/igb/igb_main.c	2016-12-21 11:07:40.000000000 -0800
++++ b/dpdk-2.1.1/lib/librte_eal/linuxapp/kni/ethtool/igb/igb_main.c	2016-12-21 11:07:40.000000000 -0800
+@@ -2276,7 +2276,11 @@
+ 
+ #ifdef HAVE_NDO_FDB_ADD_VID
+ #ifdef HAVE_NDO_BRIDGE_GETLINK_FILTER_MASK
+-	return ndo_dflt_bridge_getlink(skb, pid, seq, dev, mode, 0, 0, nlflags);
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 3, 0))
++	return ndo_dflt_bridge_getlink(skb, pid, seq, dev, mode, 0, 0, nlflags);
++#else
++	return ndo_dflt_bridge_getlink(skb, pid, seq, dev, mode, 0, 0, nlflags, 0, 0);
++#endif
+ #else
+ 	return ndo_dflt_bridge_getlink(skb, pid, seq, dev, mode, 0, 0);
+ #endif /* HAVE_NDO_BRIDGE_GETLINK_FILTER_MASK */

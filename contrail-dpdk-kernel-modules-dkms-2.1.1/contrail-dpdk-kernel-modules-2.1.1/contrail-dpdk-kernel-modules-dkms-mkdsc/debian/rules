@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DEB_NAME=contrail-dpdk-kernel-modules
+NAME=contrail-dpdk-kernel-modules
+VERSION=$(shell sed -rne "1 s/.*\((.*)\).*/\1/p" debian/changelog)
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	$(MAKE) DESTDIR=$(CURDIR)/debian/$(DEB_NAME)-dkms NAME=$(NAME) VERSION=$(VERSION) install
+
