@@ -9,13 +9,13 @@ clean:
 install:
 
 #source tree
-ifeq ("$(wildcard $(NAME)-$(VERSION))", "$(NAME)-$(VERSION)")
+#ifeq ("$(wildcard $(NAME)-$(VERSION))", "$(NAME)-$(VERSION)")
 	install -d "$(SRC)"
-	cp -a $(NAME)-$(VERSION) $(SRC)
+	cp -a $(NAME)-* $(SRC)
 #
 # DPDK uses some scripts to build kernel modules
 #	chmod 644 -R "$(SRC)/$(NAME)-$(VERSION)"
-endif
+#endif
 
 #tarball, possibly with binaries
 ifeq ("$(wildcard $(NAME)-$(VERSION).dkms.tar.gz)", "$(NAME)-$(VERSION).dkms.tar.gz")
