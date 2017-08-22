@@ -1,7 +1,7 @@
 DIST ?= "trusty"
 CWD=$(PWD)
 TIMESTAMP ?= master
-PACKAGE_VERSION=2.1.1~$(TIMESTAMP)
+PACKAGE_VERSION=2.1.1.1~$(TIMESTAMP)
 DPDK_PATH="contrail-dpdk-kernel-modules-dkms-2.1.1/contrail-dpdk-kernel-modules-2.1.1/dpdk-2.1.1"
 DPDK_BRANCH ?= contrail_dpdk_2_1
 BUILD_AREA="build-area"
