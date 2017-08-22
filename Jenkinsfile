@@ -41,6 +41,8 @@ node('docker') {
                 )
             }
             parallel buildSteps
+            aptly.snapshotRepo(APTLY_URL, APTLY_REPO, timestamp)
+            aptly.publish(APTLY_URL)
         }
     } catch (Throwable e) {
        currentBuild.result = "FAILURE"
