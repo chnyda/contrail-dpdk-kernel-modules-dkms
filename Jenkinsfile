@@ -26,6 +26,8 @@ node('docker') {
                 """)
         }
 
+        archiveArtifacts artifacts: "build-area/*.deb"
+
         stage("Upload package") {
             buildSteps = [:]
             debFiles = sh script: "ls build-area/*.deb", returnStdout: true
